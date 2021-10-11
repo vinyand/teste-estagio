@@ -1,10 +1,15 @@
 <template>
-  <h1>olá</h1>
+  <Map />
 </template>
 
 <script>
+import Map from "./views/Map";
+
 export default {
   name: "App",
+  components: {
+    Map,
+  },
 };
 </script>
 
