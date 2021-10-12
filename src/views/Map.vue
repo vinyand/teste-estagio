@@ -1,41 +1,46 @@
 <template>
-  <div id="mapid"></div>
+  <div style="height: 75vh; width: 50vw">
+    <l-map v-model="zoom" v-model:zoom="zoom" :center="[-51.9252, -14.235]">
+      <l-tile-layer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      ></l-tile-layer>
+      <l-control-layers />
+      <l-marker
+        v-for="equipment in equipmentPosition"
+        :key="equipment.equipmentId"
+        :lat-lng="[equipment.positions[0].lat, equipment.positions[0].lon]"
+      >
+        <l-tooltip> estadoAtual </l-tooltip>
+      </l-marker>
+    </l-map>
+  </div>
 </template>
 
 <script>
-import leaflet from "leaflet";
-import { onMounted } from "vue";
+import {
+  LMap,
+  LTileLayer,
+  LMarker,
+  LControlLayers,
+  LTooltip,
+} from "@vue-leaflet/vue-leaflet";
+import "leaflet/dist/leaflet.css";
+
+import equipmentPosition from "../../data/equipmentPositionHistory.json";
 
 export default {
-  name: "Map",
-  setup() {
-    let mymap;
-
-    onMounted(() => {
-      mymap = leaflet.map("mapid").setView([51.505, -0.09], 13);
-
-      leaflet
-        .tileLayer(
-          "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoid2VsZG9jYXJ2YWxobyIsImEiOiJja3VuNmlxM3gzemhqMzJuemF6bDJ5ZWFxIn0.bqEjZuNrb-_QDHdtyFIWtA",
-          {
-            attribution:
-              'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            maxZoom: 18,
-            id: "mapbox/streets-v11",
-            tileSize: 512,
-            zoomOffset: -1,
-            accessToken:
-              "pk.eyJ1Ijoid2VsZG9jYXJ2YWxobyIsImEiOiJja3VuNmlxM3gzemhqMzJuemF6bDJ5ZWFxIn0.bqEjZuNrb-_QDHdtyFIWtA",
-          }
-        )
-        .addTo(mymap);
-    });
+  components: {
+    LMap,
+    LTileLayer,
+    LMarker,
+    LControlLayers,
+    LTooltip,
+  },
+  data() {
+    return {
+      zoom: 2,
+      equipmentPosition,
+    };
   },
 };
 </script>
-
-<style>
-#mapid {
-  height: 100vh;
-}
-</style>
