@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Map from "./views/Map";
+import Map from "./components/Map";
 
 export default {
   name: "App",
@@ -12,10 +12,3 @@ export default {
   },
 };
 </script>
-
-<style>
-#app {
-  text-align: center;
-  color: #2c3e50;
-}
-</style>
